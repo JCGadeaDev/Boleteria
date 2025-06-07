@@ -1,25 +1,40 @@
 import { create } from "zustand";
 
-
 // Store para guardar valores de manera global
 const useEventsResults = create((set) => ({
-  data: [],
+  data: null,
   error: null,
   isLoading: false,
-  fetchEvents: async (params) => {
+  fetchEvents: async (params = "") => {
     try {
-      await set(() => ({ isLoading: true }));
+      set(() => ({ isLoading: true, error: null }));
 
       const response = await fetch(
         `https://app.ticketmaster.com/discovery/v2/events.json?apikey=${
           import.meta.env.VITE_TICKETMASTER_API_KEY
-        }${params?.length ? params : ""}`
+        }${params}`
       );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const data = await response.json();
 
-      await set(() => ({ data, isLoading: false }));
+      // Verifica si el resultado contiene eventos válidos
+      const validData = data?._embedded?.events ? data : { _embedded: { events: [] }, page: { totalPages: 0 } };
+
+      set(() => ({
+        data: validData,
+        isLoading: false,
+        error: null,
+      }));
     } catch (error) {
-      await set(() => ({ error }));
+      set(() => ({
+        error,
+        isLoading: false,
+        data: null,
+      }));
     }
   },
 }));

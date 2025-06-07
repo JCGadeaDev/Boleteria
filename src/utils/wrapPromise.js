@@ -1,16 +1,17 @@
+// utils/wrapPromise.js
+
 const wrapPromise = (promise) => {
     let status = 'pending';
     let result;
 
-    let suspender = promise.then(
-        (r) => {
+    const suspender = promise.then(
+        (res) => {
             status = 'success';
-            result = r;
-        }
-    ).catch(
-        (e) => {
+            result = res;
+        },
+        (err) => {
             status = 'error';
-            result = e;
+            result = err;
         }
     );
 
@@ -20,11 +21,11 @@ const wrapPromise = (promise) => {
                 throw suspender;
             } else if (status === 'error') {
                 throw result;
-            } else if (status === 'success') {
+            } else {
                 return result;
             }
         }
-    }
+    };
 };
 
 export default wrapPromise;

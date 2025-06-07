@@ -10,6 +10,11 @@ const Home = () => {
     const { data, isLoading, error, fetchEvents } = useEventsResults();
     const events = useMemo(() => data?._embedded?.events || [], [data?._embedded?.events]);
     const page = useMemo(() => data?.page || {}, [data?.page]);
+    const pageCount = useMemo(() => {
+        const total = page?.totalPages;
+        return Number.isInteger(total) ? total : 0;
+    }, [page?.totalPages]);
+
     const [isToggle, setIsToggle] = useState(false);
 
     const [searchTerm, setSearchTerm] = useState('');
@@ -55,7 +60,7 @@ const Home = () => {
                     nextLabel=">"
                     onPageChange={handlePageClick}
                     pageRangeDisplayed={5}
-                    pageCount={page.totalPages}
+                    pageCount={pageCount}
                     previousLabel="<"
                     renderOnZeroPageCount={null}
                 />
