@@ -20,7 +20,7 @@ const Detail = () => {
   return (
     <div className={styles.container}>
         <div className={styles.mainInfoContainer}>
-            <img src={eventData.images?.[0].url} className={styles.eventImage} alt={eventData.name}/>
+            <img src={eventData.images?.[0].url} className={styles.eventImage} alt={eventData.name} />
             <h4 className={styles.eventName}>{eventData.name}</h4>
             <p className={styles.eventInfo}>{eventData.info}</p>
             {eventData.dates?.start.dateTime ? <p className={styles.dateParagrahp}>{format(new Date(eventData.dates?.start.dateTime), "d LLLL yyyy H:mm", {locale:es})}hrs</p> : null}    
