@@ -1,42 +1,93 @@
 import { create } from "zustand";
+import { 
+  TICKETMASTER_BASE_URL, 
+  TICKETMASTER_EVENTS_ENDPOINT, 
+  ERROR_MESSAGES,
+  API_DEFAULT_SIZE 
+} from "../utils/constants";
 
-// Store para guardar valores de manera global
 const useEventsResults = create((set) => ({
+  // Estado inicial
   data: null,
-  error: null,
   isLoading: false,
+  error: null,
+
+  // Acción para fetch de eventos
   fetchEvents: async (params = "") => {
+    // Verificar API key
+    if (!import.meta.env.VITE_TICKETMASTER_API_KEY) {
+      set(() => ({
+        error: new Error(ERROR_MESSAGES.API_KEY_MISSING),
+        isLoading: false,
+        data: null
+      }));
+      return;
+    }
+
     try {
+      // Establecer loading state
       set(() => ({ isLoading: true, error: null }));
 
-      const response = await fetch(
-        `https://app.ticketmaster.com/discovery/v2/events.json?apikey=${
-          import.meta.env.VITE_TICKETMASTER_API_KEY
-        }${params}`
-      );
+      const apiKey = import.meta.env.VITE_TICKETMASTER_API_KEY;
+      const url = `${TICKETMASTER_BASE_URL}${TICKETMASTER_EVENTS_ENDPOINT}?apikey=${apiKey}&size=${API_DEFAULT_SIZE}${params?.length ? `&${params}` : ''}`;
+
+      console.log('Fetching events from:', url);
+
+      // Hacer la petición
+      const response = await fetch(url);
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        if (response.status === 401) {
+          throw new Error(ERROR_MESSAGES.UNAUTHORIZED);
+        }
+        if (response.status === 404) {
+          throw new Error(ERROR_MESSAGES.NO_EVENTS_FOUND);
+        }
+        throw new Error(`HTTP Error: ${response.status}`);
       }
 
-      const data = await response.json();
+      const result = await response.json();
 
-      // Verifica si el resultado contiene eventos válidos
-      const validData = data?._embedded?.events ? data : { _embedded: { events: [] }, page: { totalPages: 0 } };
-
+      // Actualizar estado con los datos
       set(() => ({
-        data: validData,
+        data: result,
         isLoading: false,
-        error: null,
+        error: null
       }));
+
     } catch (error) {
+      console.error('Error fetching events:', error);
+      
+      // Manejar diferentes tipos de errores
+      let errorMessage = ERROR_MESSAGES.GENERIC_ERROR;
+      
+      if (error.name === 'TypeError' && error.message.includes('fetch')) {
+        errorMessage = ERROR_MESSAGES.NETWORK_ERROR;
+      } else if (error.message.includes('API Key')) {
+        errorMessage = ERROR_MESSAGES.API_KEY_MISSING;
+      } else if (error.message.includes('401')) {
+        errorMessage = ERROR_MESSAGES.UNAUTHORIZED;
+      } else if (error.message.includes('404')) {
+        errorMessage = ERROR_MESSAGES.NO_EVENTS_FOUND;
+      }
+
       set(() => ({
-        error,
+        error: new Error(errorMessage),
         isLoading: false,
         data: null,
       }));
     }
   },
+
+  // Acción para limpiar errores
+  clearError: () => set(() => ({ error: null })),
+
+  // Acción para resetear el estado
+  reset: () => set(() => ({
+    data: null,
+    isLoading: false,
+    error: null
+  }))
 }));
 
 export default useEventsResults;

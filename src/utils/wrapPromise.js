@@ -1,31 +1,30 @@
-// utils/wrapPromise.js
-
+// Función wrapPromise para Suspense
 const wrapPromise = (promise) => {
-    let status = 'pending';
-    let result;
+  let status = "pending";
+  let response;
 
-    const suspender = promise.then(
-        (res) => {
-            status = 'success';
-            result = res;
-        },
-        (err) => {
-            status = 'error';
-            result = err;
-        }
-    );
+  const suspender = promise.then(
+    (res) => {
+      status = "success";
+      response = res;
+    },
+    (err) => {
+      status = "error";
+      response = err;
+    }
+  );
 
-    return {
-        read() {
-            if (status === 'pending') {
-                throw suspender;
-            } else if (status === 'error') {
-                throw result;
-            } else {
-                return result;
-            }
-        }
-    };
+  const read = () => {
+    if (status === "pending") {
+      throw suspender;
+    } else if (status === "error") {
+      throw response;
+    } else if (status === "success") {
+      return response;
+    }
+  };
+
+  return { read };
 };
 
 export default wrapPromise;
