@@ -58,6 +58,8 @@ VITE_API_URL=tu_url_api
 VITE_API_KEY=tu_api_key
 
 ## 📁 Estructura del Proyecto
+
+```bash
 src/
 ├── components/         # Componentes reutilizables
 ├── views/             # Vistas principales
@@ -65,6 +67,7 @@ src/
 ├── utils/             # Utilidades y helpers
 ├── state/            # Manejo de estado
 └── assets/           # Recursos estáticos
+```
 
 ## 🌟 Características Detalladas
 Sistema de Eventos
