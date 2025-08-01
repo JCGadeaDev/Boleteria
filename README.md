@@ -54,8 +54,6 @@ npm run dev
 ## 🔧 Configuración
 Variables de Entorno
 Crear un archivo .env con las siguientes variables:
-
-# Ejemplo de variables necesarias
 VITE_API_URL=tu_url_api
 VITE_API_KEY=tu_api_key
 
