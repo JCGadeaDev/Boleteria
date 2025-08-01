@@ -10,6 +10,8 @@ Sistema moderno de gestión de eventos desarrollado con React y Vite, que permit
 <img width="1250" height="623" alt="Screenshot_3" src="https://github.com/user-attachments/assets/c722339d-34e0-4360-8097-ae3075cedb0f" />
 <img width="1235" height="620" alt="Screenshot_6" src="https://github.com/user-attachments/assets/f9e52096-a1ae-4198-9103-6c2e4a7c7c89" />
 <img width="1241" height="488" alt="Screenshot_4" src="https://github.com/user-attachments/assets/8f7f39d2-3e08-457e-974d-cf9ef9fd4363" />
+<img width="1356" height="601" alt="Screenshot_8" src="https://github.com/user-attachments/assets/470bf5e8-2222-4977-8fff-fa999e8d6191" />
+
 
 ## 🚀 Características Principales
 - 📋 Listado dinámico de eventos
