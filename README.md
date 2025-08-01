@@ -24,9 +24,14 @@ Sistema moderno de gestión de eventos desarrollado con React y Vite, que permit
 - **Build Tool:** Vite
 - **Estilos:** Tailwind CSS
 - **Optimización:** React Suspense & Lazy Loading
+- **Optimización:** React Router DOM para navegación
+- **Optimización:** Zustand para manejo de estado
+- **Optimización:** React Hook Form para formularios
+- **Optimización:** React Paginate para paginación
+- **Optimización:** date-fns para manejo de fechas
 - **Deployment:** Vercel
 - **Linting:** ESLint
-- **Otros:** PostCSS
+- **Otros:** PostCSS 
 
 ## 📦 Instalación
 
@@ -43,4 +48,51 @@ cp .env.example .env
 # Iniciar en modo desarrollo
 npm run dev
 
+```
+## 🔧 Configuración
+Variables de Entorno
+Crear un archivo .env con las siguientes variables:
+
+# Ejemplo de variables necesarias
+VITE_API_URL=tu_url_api
+VITE_API_KEY=tu_api_key
+
+## 📁 Estructura del Proyecto
+src/
+├── components/         # Componentes reutilizables
+├── views/             # Vistas principales
+├── hooks/             # Custom hooks
+├── utils/             # Utilidades y helpers
+├── state/            # Manejo de estado
+└── assets/           # Recursos estáticos
+
+## 🌟 Características Detalladas
+Sistema de Eventos
+Visualización de eventos disponibles
+Filtrado y búsqueda
+Vista detallada de cada evento
+Gestión de Favoritos
+Marcado/desmarcado de eventos
+Persistencia de selecciones
+Sección de favoritos en perfil
+Perfil de Usuario
+Información personal
+Lista de eventos favoritos
+Preferencias de usuario
+
+## 🔍 Hooks Personalizados
+useEventsData: Gestión de datos de eventos
+useLikedEvents: Manejo de eventos favoritos
+
+## 🚀 Despliegue
+La aplicación está desplegada en Vercel y puede ser accedida en: https://boleteria-three.vercel.app/
+
+## 📈 Optimizaciones
+Implementación de React Suspense
+Lazy loading de componentes
+Optimización de imágenes
+Caching de datos
+
+## 👨‍💻 Autor
+JCGadeaDev
 
